@@ -2,8 +2,9 @@ package msa.aa_matcher.automator;
 
 
 import msa.aa_matcher.annotations.Auth;
+import msa.aa_matcher.domain.Endpoint;
 import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Method;
@@ -12,28 +13,39 @@ import java.util.List;
 
 public class AuthAutomator {
 
-	public static void findAuthEndpoints(ApplicationContext applicationContext) {
-		List<Method> authMethods = new ArrayList<>();
+	public static List<String> findAuthEndpoints(ApplicationContext applicationContext) {
+		List<Endpoint> authMethods = new ArrayList<>();
 		String[] beanNames = applicationContext.getBeanDefinitionNames();
 		for (String beanName : beanNames) {
 			Object bean = applicationContext.getBean(beanName);
+			if (!isControllerBean(bean)) {
+				continue;
+			}
 			Method[] methods = bean.getClass().getMethods();
+			String classRequestMapping = "/";
+			if (bean.getClass().isAnnotationPresent(RequestMapping.class)) {
+				classRequestMapping = bean.getClass().getAnnotation(RequestMapping.class).value()[0];
+			}
 			for (Method method : methods) {
-				if (method.isAnnotationPresent(Auth.class)) {
-					authMethods.add(method);
-					// 원하는 방식으로 처리 (예: 로깅)
-					System.out.println("Found @Auth method: " + method.getName() + " in bean: " + beanName);
-				}
+				processAuthEndpoint(method, authMethods, classRequestMapping);
 			}
 		}
+		return List.of("test1", "test2", "test3");
 	}
 
-	private void processAuthEndpoint(Method method, List<Method> authMethods) {
-		if (isEndpointMethod(method) && method.isAnnotationPresent(Auth.class)) {
-			authMethods.add(method);
+	private static void processAuthEndpoint(Method method, List<Endpoint> authMethods, String classRequestMapping) {
+//		if (isEndpointMethod(method) && method.isAnnotationPresent(Auth.class)) {
+		if (method.isAnnotationPresent(Auth.class)) {
+			System.out.println("Found Auth endpoint: " + method.getDeclaringClass().getSimpleName() + "." + method.getName());
+			Endpoint endpoint = new Endpoint(classRequestMapping, method);
+			authMethods.add(endpoint);
 		}
 	}
-	private boolean isEndpointMethod(Method method) {
+	private static boolean isControllerBean(Object bean) {
+			return bean.getClass().isAnnotationPresent(Controller.class) ||
+							bean.getClass().isAnnotationPresent(RestController.class);
+		}
+	private static boolean isEndpointMethod(Method method) {
 		return method.isAnnotationPresent(RequestMapping.class) ||
 						method.isAnnotationPresent(GetMapping.class) ||
 						method.isAnnotationPresent(PostMapping.class) ||
