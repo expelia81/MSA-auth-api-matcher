@@ -9,11 +9,12 @@ public class AuthContextSpec {
 
 	private List<String> authCatalog;
 
-	private List<Endpoint> endpoints;
+	private List<AuthController> controllers;
+
+	private List<AuthEndpoint> endpoints;
 
 
 	public AuthContextSpec(ApplicationContext applicationContext) {
 		this.contextPath = applicationContext.getEnvironment().getProperty("server.servlet.context-path", applicationContext.getEnvironment().getProperty("spring.webflux.base-path", ""));
-
 	}
 }
