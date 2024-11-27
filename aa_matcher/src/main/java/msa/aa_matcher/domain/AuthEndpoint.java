@@ -18,6 +18,18 @@ public class AuthEndpoint {
 	private String path;
 	private final List<String> auths = new ArrayList<>();
 
+	public HttpMethod getMethod() {
+		return method;
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public List<String> getAuths() {
+		return auths;
+	}
+
 	/**
 	 * Endpoint의 기초가 되는 생성자
 	 */
@@ -30,9 +42,9 @@ public class AuthEndpoint {
 			if (!Utils.isEndpoint(method)) {
 				continue;
 			}
-			String path = Path.from(controller.path, method);
+			String path = Path.from(controller.getPath(), method);
 			if (Utils.isAuthEndpoint(method)) {
-				AuthEndpoint endpoint = new AuthEndpoint(controller.path, method);
+				AuthEndpoint endpoint = new AuthEndpoint(controller.getPath(), method);
 				List<String> auths = Utils.getAuths(method);
 				endpoint.auths.addAll(auths);
 				controller.registerEndpoint(endpoint);

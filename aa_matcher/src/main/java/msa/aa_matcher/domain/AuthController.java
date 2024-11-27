@@ -11,14 +11,34 @@ import java.util.Set;
 
 public class AuthController {
 
-	String name;
-	String path;
-	List<AuthEndpoint> endpoints = new ArrayList<>();
+	private String name;
+	private String path;
+	private List<AuthEndpoint> endpoints = new ArrayList<>();
 
-	List<String> unAuthorizedEndpoints = new ArrayList<>();
+	private List<String> unAuthorizedEndpoints = new ArrayList<>();
 
 	@JsonIgnore
 	Method[] methods;
+
+	public String getName() {
+		return name;
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public List<AuthEndpoint> getEndpoints() {
+		return endpoints;
+	}
+
+	public List<String> getUnAuthorizedEndpoints() {
+		return unAuthorizedEndpoints;
+	}
+
+	public Method[] getMethods() {
+		return methods;
+	}
 
 	public AuthController(Class<?> clazz) {
 		methods = clazz.getMethods();
@@ -35,7 +55,7 @@ public class AuthController {
 	}
 
 
-	private static class Utils {
+	protected static class Utils {
 		private final static Set<Class<? extends Annotation>> CONTROLLER_ANNOTATIONS = Set.of(
 						org.springframework.stereotype.Controller.class,
 						org.springframework.web.bind.annotation.RestController.class

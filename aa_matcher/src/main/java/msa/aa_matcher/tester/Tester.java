@@ -4,6 +4,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import msa.aa_matcher.automator.AuthAutomator;
+import msa.aa_matcher.domain.AuthContextSpec;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.Environment;
@@ -20,8 +21,8 @@ public class Tester {
 	private ApplicationContext applicationContext;
 
 
-	@RequestMapping("/test99")
-	public List<String> test99() {
+	@GetMapping("/test99")
+	public AuthContextSpec test99() {
 
 		System.out.println("Tester initialized");
 		Environment env = applicationContext.getEnvironment();
