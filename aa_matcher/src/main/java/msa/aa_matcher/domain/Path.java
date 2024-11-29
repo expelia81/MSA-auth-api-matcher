@@ -16,7 +16,7 @@ public class Path {
 	 * 메소드에서 클래스 기반 경로, 메소드 기반 경로를 합쳐서 하나의 경로를 만들어 반환해야한다.
 	 */
 	public static String from(String classPath, Method method) {
-		String methodPath="";
+		String methodPath=null;
 
 		for (Annotation annotation : method.getAnnotations()) {
 			Class<? extends Annotation> aClass = annotation.annotationType();
@@ -30,11 +30,12 @@ public class Path {
 				methodPath = method.getAnnotation(PatchMapping.class).value()[0];
 			} else if (aClass.equals(DeleteMapping.class)) {
 				methodPath = method.getAnnotation(DeleteMapping.class).value()[0];
-			} else {
-				// 해당 warning 로그는 찍히는 것 자체가 버그이므로, 찍힐 경우 예외를 발생시킨다.
-				logger.warning("HttpMethod not found while creating path : " + method.getName());
-				throw new UnExpectedException("HttpMethod not found");
 			}
+		}
+
+		if (methodPath == null) {
+			logger.warning("HttpMethod not found while creating path : " + method.getName());
+			throw new UnExpectedException("HttpMethod not found");
 		}
 
 		return mergePath(classPath,methodPath);

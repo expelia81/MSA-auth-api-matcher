@@ -67,10 +67,9 @@ public class AuthController {
 		}
 
 		public static String getRequestMappingPath(Class<?> clazz) {
-			if (clazz.isAnnotationPresent(RequestMapping.class)){
+			if (!clazz.isAnnotationPresent(RequestMapping.class)){
 				return "";
 			}
-			return clazz.getAnnotation(RequestMapping.class).value()[0];
 		}
 	}
 }
