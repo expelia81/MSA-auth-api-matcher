@@ -25,14 +25,28 @@ public class AuthContextSpec {
 				continue;
 			}
 			AuthController controller = new AuthController(clazz);
+			if (controller.getEndpoints().isEmpty()) {
+				continue;
+			}
+			controllers.add(controller);
+			endpoints.addAll(controller.getEndpoints());
+			authCatalog.addAll(controller.getAuthCatalog());
 		}
 	}
 
-	public void registerController(AuthController controller) {
-		controllers.add(controller);
-		controller.getEndpoints().forEach(endpoint -> {
-			endpoints.add(endpoint);
-			authCatalog.addAll(endpoint.getAuths());
-		});
+	public String getContextPath() {
+		return contextPath;
+	}
+
+	public List<String> getAuthCatalog() {
+		return authCatalog;
+	}
+
+	public List<AuthController> getControllers() {
+		return controllers;
+	}
+
+	public List<AuthEndpoint> getEndpoints() {
+		return endpoints;
 	}
 }

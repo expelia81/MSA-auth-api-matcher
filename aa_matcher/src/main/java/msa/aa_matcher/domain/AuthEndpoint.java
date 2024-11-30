@@ -1,22 +1,21 @@
 package msa.aa_matcher.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import msa.aa_matcher.annotations.Auth;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Logger;
 
 public class AuthEndpoint {
+	@JsonIgnore
 	private static final Logger logger = Logger.getLogger(AuthEndpoint.class.getName());
 	private HttpMethod method;
 	private String path;
-	private final List<String> auths = new ArrayList<>();
+	private final Set<String> auths = new HashSet<>();
 
 	public HttpMethod getMethod() {
 		return method;
@@ -26,7 +25,7 @@ public class AuthEndpoint {
 		return path;
 	}
 
-	public List<String> getAuths() {
+	public Set<String> getAuths() {
 		return auths;
 	}
 
@@ -48,6 +47,7 @@ public class AuthEndpoint {
 				List<String> auths = Utils.getAuths(method);
 				endpoint.auths.addAll(auths);
 				controller.registerEndpoint(endpoint);
+				controller.getAuthCatalog().addAll(auths);
 			} else {
 				controller.registerUnAuthorizedEndpoint(path);
 			}

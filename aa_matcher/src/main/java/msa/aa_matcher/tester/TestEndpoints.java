@@ -10,18 +10,23 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestEndpoints {
 
 	@GetMapping("/test1")
-	@Auth
+	@Auth({"admin", "user"})
 	public void test1() {
 		System.out.println("Test1");
 	}
 	@GetMapping("/test2")
-	@Auth
+	@Auth({"admin"})
 	public void test2() {
 		System.out.println("Test1");
 	}
 	@GetMapping("/test3")
-	@Auth
+	@Auth({"user","guest"})
 	public void test3() {
+		System.out.println("Test1");
+	}
+
+	@GetMapping("/test4")
+	public void test4() {
 		System.out.println("Test1");
 	}
 }
