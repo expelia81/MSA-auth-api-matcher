@@ -19,7 +19,7 @@ public class TestEndpoints {
 	public void test2() {
 		System.out.println("Test1");
 	}
-	@GetMapping("/test3")
+	@GetMapping("test3")
 	@Auth({"user","guest"})
 	public void test3() {
 		System.out.println("Test1");

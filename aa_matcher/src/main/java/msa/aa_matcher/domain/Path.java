@@ -44,15 +44,18 @@ public class Path {
 
 
 	private static String mergePath(String classPath, String methodPath) {
-		if (methodPath.isBlank()) {
-			return classPath;
+		if (!classPath.startsWith("/")) {
+			classPath = "/"+classPath;
 		}
-		if (methodPath.startsWith("/")) {
-			methodPath = methodPath.substring(1);
-		} else {
-			methodPath = "/" + methodPath;
+		if (classPath.endsWith("/")) {
+			classPath = classPath.substring(0, classPath.length() - 1);
 		}
-		String result = classPath + methodPath;
-		return result;
+		if (!methodPath.startsWith("/")) {
+			methodPath = "/"+methodPath;
+		}
+		if (methodPath.endsWith("/")) {
+			methodPath = methodPath.substring(0, methodPath.length() - 1);
+		}
+		return classPath + methodPath;
 	}
 }

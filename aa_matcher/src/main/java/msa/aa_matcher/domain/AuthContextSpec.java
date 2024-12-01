@@ -25,7 +25,7 @@ public class AuthContextSpec {
 				continue;
 			}
 			AuthController controller = new AuthController(clazz);
-			if (controller.getEndpoints().isEmpty()) {
+			if (controller.getEndpoints().isEmpty() && controller.getUnAuthorizedEndpoints().isEmpty()) {
 				continue;
 			}
 			controllers.add(controller);
