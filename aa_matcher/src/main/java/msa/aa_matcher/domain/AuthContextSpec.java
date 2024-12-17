@@ -8,11 +8,11 @@ import java.util.List;
 public class AuthContextSpec {
 	private final String contextPath;
 
-	private List<String> authCatalog = new ArrayList<>();
+	private final List<String> authCatalog = new ArrayList<>();
 
-	private List<AuthController> controllers = new ArrayList<>();
+	private final List<AuthController> controllers = new ArrayList<>();
 
-	private List<AuthEndpoint> endpoints = new ArrayList<>();
+	private final List<AuthEndpoint> endpoints = new ArrayList<>();
 
 
 	public AuthContextSpec(ApplicationContext applicationContext) {

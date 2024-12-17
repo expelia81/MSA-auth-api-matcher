@@ -1,6 +1,9 @@
 package msa.aa_matcher.tester;
 
 import msa.aa_matcher.annotations.Auth;
+import msa.aa_matcher.automator.conditioner.Conditioners;
+import msa.aa_matcher.config.AuthConfigs;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -8,6 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/test")
 @RestController
 public class TestEndpoints {
+	private final AuthConfigs authConfigs;
+
+	public TestEndpoints(AuthConfigs authConfigs) {
+		this.authConfigs = authConfigs;
+		System.out.println("TestEndpoints initialized");
+		System.out.println("Server type: " + authConfigs.getType());
+	}
 
 	@GetMapping("/test1")
 	@Auth({"admin", "user"})

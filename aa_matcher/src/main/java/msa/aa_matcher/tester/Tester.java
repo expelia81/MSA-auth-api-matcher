@@ -7,6 +7,7 @@ import msa.aa_matcher.automator.AuthAutomator;
 import msa.aa_matcher.domain.AuthContextSpec;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
+//@Conditional()
+@RequestMapping("/test")
 public class Tester {
 	@Autowired
 	private ApplicationContext applicationContext;
